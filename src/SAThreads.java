@@ -79,6 +79,7 @@ public class SAThreads {
                 newframe.setSize(400, 290);
                 newframe.setVisible(true);
                 SAThread saThread = new SAThread(title, Integer.parseInt(count), Integer.parseInt(id), newframe);
+                saThread.fillLastPage();
                 saThreads.add(saThread);
             }
 
