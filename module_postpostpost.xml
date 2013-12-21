@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_postpostpost" default="compile.module.postpostpost">
+  <dirname property="module.postpostpost.basedir" file="${ant.file.module_postpostpost}"/>
+  
+  <property name="module.jdk.home.postpostpost" value="${jdk.home.1.7}"/>
+  <property name="module.jdk.bin.postpostpost" value="${jdk.bin.1.7}"/>
+  <property name="module.jdk.classpath.postpostpost" value="jdk.classpath.1.7"/>
+  
+  <property name="compiler.args.postpostpost" value="${compiler.args}"/>
+  
+  <property name="postpostpost.output.dir" value="${module.postpostpost.basedir}/bin"/>
+  <property name="postpostpost.testoutput.dir" value="${module.postpostpost.basedir}/bin"/>
+  
+  <path id="postpostpost.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="postpostpost.module.production.classpath">
+    <path refid="${module.jdk.classpath.postpostpost}"/>
+    <pathelement location="${basedir}/../../../Downloads/jsoup-1.7.3.jar"/>
+  </path>
+  
+  <path id="postpostpost.runtime.production.module.classpath">
+    <pathelement location="${postpostpost.output.dir}"/>
+    <pathelement location="${basedir}/../../../Downloads/jsoup-1.7.3.jar"/>
+  </path>
+  
+  <path id="postpostpost.module.classpath">
+    <pathelement location="${postpostpost.output.dir}"/>
+    <path refid="${module.jdk.classpath.postpostpost}"/>
+    <pathelement location="${basedir}/../../../Downloads/jsoup-1.7.3.jar"/>
+  </path>
+  
+  <path id="postpostpost.runtime.module.classpath">
+    <pathelement location="${postpostpost.output.dir}"/>
+    <pathelement location="${basedir}/../../../Downloads/jsoup-1.7.3.jar"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.postpostpost">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.postpostpost">
+    <patternset refid="excluded.from.module.postpostpost"/>
+  </patternset>
+  
+  <path id="postpostpost.module.sourcepath">
+    <dirset dir="${module.postpostpost.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.postpostpost" depends="compile.module.postpostpost.production,compile.module.postpostpost.tests" description="Compile module PostPostPost"/>
+  
+  <target name="compile.module.postpostpost.production" depends="register.custom.compilers" description="Compile module PostPostPost; production classes">
+    <mkdir dir="${postpostpost.output.dir}"/>
+    <javac2 destdir="${postpostpost.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.postpostpost}/javac">
+      <compilerarg line="${compiler.args.postpostpost}"/>
+      <bootclasspath refid="postpostpost.module.bootclasspath"/>
+      <classpath refid="postpostpost.module.production.classpath"/>
+      <src refid="postpostpost.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.postpostpost"/>
+    </javac2>
+    
+    <copy todir="${postpostpost.output.dir}">
+      <fileset dir="${module.postpostpost.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.postpostpost.tests" depends="register.custom.compilers,compile.module.postpostpost.production" description="compile module PostPostPost; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.postpostpost" description="cleanup module">
+    <delete dir="${postpostpost.output.dir}"/>
+    <delete dir="${postpostpost.testoutput.dir}"/>
+  </target>
+</project>
