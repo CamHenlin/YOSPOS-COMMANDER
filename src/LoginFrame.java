@@ -17,7 +17,7 @@ public class LoginFrame extends JFrame implements ActionListener {
     private JLabel UserNameLabel;
     private JLabel PasswordLabel;
     private JTextField usernameTextField;
-    private JTextField passwordTextField;
+    private JPasswordField passwordTextField;
     private JPanel jpanel;
 
     public Boolean loggedIn = false;
