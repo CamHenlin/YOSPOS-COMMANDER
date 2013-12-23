@@ -22,10 +22,7 @@ public class SAThreads {
             String count = threadTitles.select("td.replies").text();
             String id = threadTitles.select("a.thread_title").attr("href").split("threadid=")[1];
 
-            ThreadFrame newFrame;
-            newFrame = new ThreadFrame(title, id);
-            newFrame.setSize(400, 290);
-            newFrame.setLocation(x, y);
+
             counter++;
             // let's tile windows!
             if (counter < 6) {
@@ -37,9 +34,8 @@ public class SAThreads {
                 counter = 0;
             }
 
-            newFrame.setVisible(true);
 
-            SAThread saThread = new SAThread(title, Integer.parseInt(count), Integer.parseInt(id), newFrame);
+            SAThread saThread = new SAThread(title, Integer.parseInt(count), Integer.parseInt(id), x, y);
             saThread.fillLastPage();
 
             matches.add(saThread);
@@ -75,10 +71,7 @@ public class SAThreads {
             }
 
             if (!oldThread) {
-                ThreadFrame newframe = new ThreadFrame(title, id);
-                newframe.setSize(400, 290);
-                newframe.setVisible(true);
-                SAThread saThread = new SAThread(title, Integer.parseInt(count), Integer.parseInt(id), newframe);
+                SAThread saThread = new SAThread(title, Integer.parseInt(count), Integer.parseInt(id), 20, 20);
                 saThread.fillLastPage();
                 saThreads.add(saThread);
             }

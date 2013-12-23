@@ -1,6 +1,5 @@
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -14,15 +13,33 @@ public class ThreadFrame extends JFrame implements ActionListener {
     private JTextField newPostTextField;
     private JPanel mainPanel;
     private JScrollPane postsScrollPane;
-    public final String id;
+    private SAThread saThread;
+    public String id;
 
-    public ThreadFrame(String title, String id) {
+    public ThreadFrame(String title, String id, SAThread saThread) {
         super(title + " : " + id);
+        this.saThread = saThread;
 
         this.id = id;
         setContentPane(this.mainPanel);
         pack();
         newPostTextField.addActionListener(this);
+
+
+        WindowListener exitListener = new WindowAdapter() {
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+                // close sockets, etc
+                haltThreadUpdate();
+            }
+        };
+
+        this.addWindowListener(exitListener);
+    }
+
+    public void haltThreadUpdate() {
+        this.saThread.shouldGetNewPosts = false;
     }
 
     public void actionPerformed(ActionEvent e) {

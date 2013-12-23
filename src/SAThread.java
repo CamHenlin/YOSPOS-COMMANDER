@@ -12,19 +12,30 @@ public class SAThread {
 
     public final String title;
     public int postCount;
-    public final int id;
-    public final List<SAPost> posts;
-    public final ThreadFrame threadframe;
+    public int id;
+    public List<SAPost> posts;
+    public ThreadFrame threadframe;
+    public Boolean shouldGetNewPosts = true;
 
-    public SAThread(String title, int postCount, int id, ThreadFrame threadframe) {
-        this.threadframe = threadframe;
+    public SAThread(String title, int postCount, int id, int x, int y) {
+
         this.title = title;
         this.postCount = postCount;
         this.id = id;
         this.posts = new ArrayList<SAPost>();
+
+        this.threadframe = new ThreadFrame(this.title, String.valueOf(this.id), this);
+        this.threadframe.setSize(400, 290);
+        this.threadframe.setLocation(x, y);
+
+        this.threadframe.setVisible(true);
     }
 
     public void getNewPosts(int newPostCount) {
+        if (this.shouldGetNewPosts == false) {
+            return;
+        }
+
         int newPosts = newPostCount - this.postCount;
         int postsOnPage = this.postCount % 40;
         int pages = this.postCount / 40;
